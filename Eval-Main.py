@@ -1,23 +1,20 @@
-from eval_module2 import extract_stats_from_raw_data_file as compare_files_and_create_stats
-from eval_module2 import open_blacklist_and_list_IPs
-from eval_module3 import read_csv_to_dictionary
-from eval_module3 import write_dictionary_to_csv
-from eval_module3 import write_list_to_file
-from eval_module1 import get_siz_of_file
+from eval_module1 import *
+from eval_module2 import *
+from eval_module3 import *
 import os
 from datetime import datetime
 
 
-directory_where_the_blacklist_files_can_be_found = '/home/thomas/Test/Gradual/B20-E20/Out-Put-Files/Historical_Blacklists/All-Time-Prioritize-Consistent'
+input_blacklist_files = os.environ['input_data_folder']
 
-directory_where_the_data_files_can_be_found = '/home/thomas/Test/Data_For_testing/'
+input_evaluation_files = os.environ['eval_data_folder']
 
-averages_file = '/home/thomas/Test/Gradual/B20-E20/Eval/averages.csv'
+averages_file = os.environ['output_averages']
 
-percentages_file = '/home/thomas/Test/Gradual/B20-E20/Eval/all_percentages.csv'
+percentages_file = os.environ['output_percentages']
 
 
-def loop_through_all_blacklists_and_datasets_and_generate_stats(blacklist_directory, data_directory, total_averages_file, percentage_list_file):
+def loop_through_all_blacklists_generate_stats(blacklist_directory, data_directory, total_averages_file, percentage_list_file):
     list_of_blacklist_files = os.listdir(blacklist_directory)
     list_of_splunk_data_files = os.listdir(data_directory)
     number_of_processed_blacklists = 0
@@ -46,7 +43,7 @@ def loop_through_all_blacklists_and_datasets_and_generate_stats(blacklist_direct
     for x,date in enumerate(sorted_blacklist_dates):
         print(date)
         number_of_processed_blacklists += 1
-        stats_for_this_day = compare_files_and_create_stats(data_directory + '/' + sorted_data_dates[x+1] + '_splunk_raw.csv', open_blacklist_and_list_IPs(
+        stats_for_this_day = extract_stats_from_raw_data_file(data_directory + '/' + sorted_data_dates[x + 1] + '_splunk_raw.csv', open_blacklist_and_list_IPs(
             blacklist_directory + '/' + date + '_blacklist.csv'
         ))
         # Add up the averages so I can get an overall average
@@ -89,4 +86,4 @@ def loop_through_all_blacklists_and_datasets_and_generate_stats(blacklist_direct
     write_list_to_file(sorted_list, percentage_list_file)
 
 
-loop_through_all_blacklists_and_datasets_and_generate_stats(directory_where_the_blacklist_files_can_be_found, directory_where_the_data_files_can_be_found, averages_file, percentages_file)
+loop_through_all_blacklists_generate_stats(input_blacklist_files, input_evaluation_files, averages_file, percentages_file)
