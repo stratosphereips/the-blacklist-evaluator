@@ -5,6 +5,13 @@ echo Directory where you want results, no slash at end:
 read output_folder_directory
 echo ............................
 
+# Input location of results
+echo ............................
+echo Input the file ending for current blacklist:
+read blacklist_ending
+echo ............................
+
+
 # Check to see if the directory is real.
 while [ ! -d $output_folder_directory ]
 do
@@ -65,5 +72,6 @@ export output_averages
 export output_percentages
 export input_data_folder
 export eval_data_folder
+export blacklist_ending
 
 python3 Eval-Main.py

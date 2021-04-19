@@ -4,6 +4,7 @@ from eval_module3 import *
 import os
 from datetime import datetime
 
+ending = os.environ['blacklist_ending']
 
 input_blacklist_files = os.environ['input_data_folder']
 
@@ -14,7 +15,7 @@ averages_file = os.environ['output_averages']
 percentages_file = os.environ['output_percentages']
 
 
-def loop_through_all_blacklists_generate_stats(blacklist_directory, data_directory, total_averages_file, percentage_list_file):
+def loop_through_all_blacklists_generate_stats(blacklist_directory, data_directory, total_averages_file, percentage_list_file, ending):
     list_of_blacklist_files = os.listdir(blacklist_directory)
     list_of_splunk_data_files = os.listdir(data_directory)
     number_of_processed_blacklists = 0
@@ -44,8 +45,7 @@ def loop_through_all_blacklists_generate_stats(blacklist_directory, data_directo
         print(date)
         number_of_processed_blacklists += 1
         stats_for_this_day = extract_stats_from_raw_data_file(data_directory + '/' + sorted_data_dates[x + 1] + '_splunk_raw.csv', open_blacklist_and_list_IPs(
-            blacklist_directory + '/' + date + '_blacklist.csv'
-        ))
+            blacklist_directory + '/' + date + ending))
         # Add up the averages so I can get an overall average
         total_byte_averages_for_table += float(stats_for_this_day[0])
         total_packet_averages_for_table += float(stats_for_this_day[1])
