@@ -55,7 +55,6 @@ done
 
 output_folder=$output_folder_directory/$name_of_results_folder
 mkdir $output_folder/
-touch $output_folder/averages.csv
 touch $output_folder/all_percentages.csv
 
 output_percentages=$output_folder/all_percentages.csv
@@ -71,6 +70,7 @@ do
   export file
   export eval_file
   export output_percentages
+  export tomorrow
   python3 main.py
 done
 

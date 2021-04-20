@@ -11,7 +11,7 @@ print(eval_file)
 
 percentage_file = os.environ['output_percentages']
 
-date = os.environ['date']
+date = os.environ['tomorrow']
 print(date)
 
 with open(blacklist, 'r') as blacklist_file:
