@@ -19,10 +19,9 @@ def read_csv_to_dictionary(location_of_csv):
 
 
 def write_list_to_file(list, location_of_csv):
-    with open(location_of_csv, 'w') as file:
+    with open(location_of_csv, 'a') as file:
         csvfile = csv.writer(file)
-        for entry in list:
-            csvfile.writerow(entry)
+        csvfile.writerow(list)
 
 
 

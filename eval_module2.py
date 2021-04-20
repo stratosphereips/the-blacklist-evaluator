@@ -2,13 +2,6 @@
 
 import csv
 
-def open_blacklist_and_list_IPs(a_blacklist_csv_file):
-    list_of_IPs = []
-    with open(a_blacklist_csv_file, 'r') as csvfile:
-        for line in csv.reader(csvfile):
-            list_of_IPs.extend(line)
-    return list_of_IPs
-
 
 def extract_stats_from_raw_data_file(path_to_data_file, list_of_blocked_IPs):
     # Data gathered for the attacks
@@ -27,7 +20,7 @@ def extract_stats_from_raw_data_file(path_to_data_file, list_of_blocked_IPs):
 
     with open(path_to_data_file, "r") as the_file:
         for line in csv.reader(the_file):
-            if (line[0] != 'SrcAddr') and (line[0] in list_of_blocked_IPs):
+            if (line[0] != 'SrcAddr') and (str(line[0]) in list_of_blocked_IPs):
                 total_durations_blocked += float(line[2])
                 total_bytes_blocked += float(line[4])
                 total_packets_blocked += float(line[6])

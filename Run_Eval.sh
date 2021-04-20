@@ -58,19 +58,19 @@ mkdir $output_folder/
 touch $output_folder/averages.csv
 touch $output_folder/all_percentages.csv
 
-output_averages=$output_folder/averages.csv
 output_percentages=$output_folder/all_percentages.csv
 
 for file in $blacklist_folder/*
 do
-        pat='[0-9][0-9][0-9][0-9][-][0-9][0-9][-][0-9][0-9]'
-        [[ $file =~ $pat ]]
-        date="${BASH_REMATCH[0]}"
-        tomorrow_unix=$(( $(date -d $date "+%s") + 86400 ))
-        tomorrow=$(date -d @$tomorrow_unix +'%Y-%m-%d')
-        eval_file=$eval_data_folder/$tomorrow"_splunk_raw.csv"
-	export file
-	export eval_file
-	python3 Eval-Main.py
+  pat='[0-9][0-9][0-9][0-9][-][0-9][0-9][-][0-9][0-9]'
+  [[ $file =~ $pat ]]
+  date="${BASH_REMATCH[0]}"
+  tomorrow_unix=$(( $(date -d $date "+%s") + 86400 ))
+  tomorrow=$(date -d @$tomorrow_unix +'%Y-%m-%d')
+  eval_file=$eval_data_folder/$tomorrow"_splunk_raw.csv"
+  export file
+  export eval_file
+  export output_percentages
+  python3 main.py
 done
 
