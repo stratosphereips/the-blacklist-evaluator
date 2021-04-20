@@ -28,10 +28,18 @@ for line in content:
         ips.append(ip.group())
 
 averages = extract_stats_from_raw_data_file(eval_file, ips)
+data_list = []
+data_list.append(date)
+data_list.extend(averages)
+data_list.append(len(ips))
+print(data_list)
 
-data_list = [date, averages, len(ips)]
+header = ["date", "percent_bytes_stopped", "percent_packets_stopped", "percent_duration_stopped", "percent_events_stopped", "percent_of_IPs_stopped", "number_of_ips_in_BL"]
+dictionary = {}
+for x, entry in enumerate(data_list):
+    dictionary[header[x]] = entry
 
-write_list_to_file(data_list, percentage_file)
+write_dict_to_file(dictionary, percentage_file)
 
 
 
