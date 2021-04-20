@@ -5,13 +5,6 @@ echo Directory where you want results, no slash at end:
 read output_folder_directory
 echo ............................
 
-# Input location of results
-echo ............................
-echo Input the file ending for current blacklist:
-read blacklist_ending
-echo ............................
-
-
 # Check to see if the directory is real.
 while [ ! -d $output_folder_directory ]
 do
@@ -34,15 +27,15 @@ do
 done
 
 # Input location of the blacklists to be evaluated
-echo Path to input data folder:
-read input_data_folder
+echo Folder where the Blacklists are:
+read blacklist_folder
 echo ............................
 
 # Check to see if the directory is real.
-while [ ! -d $input_data_folder ]
+while [ ! -d $blacklist_folder ]
 do
    echo Not a real directory, please input a real one:
-   read input_data_folder
+   read blacklist_folder
    echo ............................
 done
 
@@ -68,10 +61,16 @@ touch $output_folder/all_percentages.csv
 output_averages=$output_folder/averages.csv
 output_percentages=$output_folder/all_percentages.csv
 
-export output_averages
-export output_percentages
-export input_data_folder
-export eval_data_folder
-export blacklist_ending
+for file in $blacklist_folder/*
+do
+        pat='[0-9][0-9][0-9][0-9][-][0-9][0-9][-][0-9][0-9]'
+        [[ $file =~ $pat ]]
+        date="${BASH_REMATCH[0]}"
+        tomorrow_unix=$(( $(date -d $date "+%s") + 86400 ))
+        tomorrow=$(date -d @$tomorrow_unix +'%Y-%m-%d')
+        eval_file=$eval_data_folder/$tomorrow"_splunk_raw.csv"
+	export file
+	export eval_file
+	python3 Eval-Main.py
+done
 
-python3 Eval-Main.py

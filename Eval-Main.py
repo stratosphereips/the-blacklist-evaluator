@@ -6,7 +6,7 @@ from datetime import datetime
 
 ending = os.environ['blacklist_ending']
 
-input_blacklist_files = os.environ['input_data_folder']
+input_blacklist_fi = os.environ['input_data_folder']
 
 input_evaluation_files = os.environ['eval_data_folder']
 
