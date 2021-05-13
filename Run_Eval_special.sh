@@ -57,21 +57,24 @@ output_folder=$output_folder_directory/$name_of_results_folder
 mkdir $output_folder/
 touch $output_folder/all_percentages.csv
 
-output_percentages=$output_folder/all_percentages.csv
-
-for folder in $blacklist_folder/*
-for file in $blacklist_folder/*
+for folder in $eval_data_folder/*
 do
-  pat='[0-9][0-9][0-9][0-9][-][0-9][0-9][-][0-9][0-9]'
-  [[ $file =~ $pat ]]
-  date="${BASH_REMATCH[0]}"
-  tomorrow_unix=$(( $(date -d $date "+%s") + 86400 ))
-  tomorrow=$(date -d @$tomorrow_unix +'%Y-%m-%d')
-  eval_file=$eval_data_folder/$tomorrow"_splunk_raw.csv"
-  export file
-  export eval_file
-  export output_percentages
-  export date
-  python3 main.py
+  folder_name=$(basename $folder)
+  mkdir $output_folder/$folder_name
+  current_location_output=$output_folder/$folder_name/all_percentages.csv
+  for file in $blacklist_folder/*
+  do
+    pat='[0-9][0-9][0-9][0-9][-][0-9][0-9][-][0-9][0-9]'
+    [[ $file =~ $pat ]]
+    date="${BASH_REMATCH[0]}"
+    tomorrow_unix=$(( $(date -d $date "+%s") + 86400 ))
+    tomorrow=$(date -d @$tomorrow_unix +'%Y-%m-%d')
+    eval_file=$folder/$tomorrow"_splunk_raw.csv"
+    export file
+    export eval_file
+    export current_location_output
+    export date
+    python3 main.py
+  done
 done
 
