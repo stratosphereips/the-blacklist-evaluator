@@ -40,7 +40,7 @@ do
 done
 
 # Input the location of the traffic files that will be used for eval
-echo Path to evaluation data:
+echo Path to location folder for Vero Data:
 echo Note: In order to evaluate all blacklists generated from input data, eval
 echo data should contain one more days data file that input data:
 read eval_data_folder
@@ -59,6 +59,7 @@ touch $output_folder/all_percentages.csv
 
 output_percentages=$output_folder/all_percentages.csv
 
+for folder in $blacklist_folder/*
 for file in $blacklist_folder/*
 do
   pat='[0-9][0-9][0-9][0-9][-][0-9][0-9][-][0-9][0-9]'
